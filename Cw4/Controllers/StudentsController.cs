@@ -61,16 +61,8 @@ namespace Wyk4.Controllers
             using (SqlCommand com = new SqlCommand())
             {
                 com.Connection = con;
-                //com.CommandText = "select * from student where indexnumber=@index";
-                //com.CommandText = "select e.IdEnrollment, Semester, IdStudy, StartDate from Enrollment e join student s on e.IdEnrollment = s.IdEnrollment where indexnumber=@index";
                 com.CommandText = "SELECT Name, Semester, startdate FROM Student S INNER JOIN Enrollment E on S.IdEnrollment = E.IdEnrollment INNER JOIN Studies St on E.IdStudy = St.IdStudy WHERE IndexNumber =@index";
-                
-                /* 1 sposób
-                SqlParameter par = new SqlParameter();
-                par.Value = indexNumber;
-                par.ParameterName = "index";
-                com.Parameters.Add(par);
-                */
+              
                 com.Parameters.AddWithValue("index", indexNumber);
 
                 con.Open();
@@ -79,22 +71,6 @@ namespace Wyk4.Controllers
                 var response = new List<string>();
                 if(dr.Read())
                 {
-                    //var st = new Student();
-                    
-
-                    // if (dr["IndexNumber"] == DBNull.Value)
-                    // {
-
-                    //}
-
-                    //st.IndexNumber = dr["IndexNumber"].ToString();
-                    //st.FirstName = dr["FirstName"].ToString();
-                    //st.LastName = dr["LastName"].ToString();
-
-                    //en.CourseName = dr["CourseName"].ToString();
-                    // en.Semester = Int32.Parse(dr["Semester"].ToString());
-                    //en.StartDate = dr["StartDate"].ToString();
-
                     response.Add(" Studia: " + dr["Name"].ToString() + " Semestr: " + dr["Semester"].ToString() + " StartDate: " + dr["StartDate"].ToString());
                     return Ok(response);
                 }
@@ -102,6 +78,7 @@ namespace Wyk4.Controllers
             }
             return NotFound();
         }
+        
         [HttpGet("ex2")]
         public IActionResult GetStudents2()
         {
