@@ -78,51 +78,6 @@ namespace Wyk4.Controllers
             }
             return NotFound();
         }
-        
-        [HttpGet("ex2")]
-        public IActionResult GetStudents2()
-        {
-
-            using (SqlConnection con = new SqlConnection(ConString))
-            using (SqlCommand com = new SqlCommand())
-            {
-                com.Connection = con;
-                com.CommandText = "nazwaprocedury";
-                com.CommandType = System.Data.CommandType.StoredProcedure;
-
-                com.Parameters.AddWithValue("LastName", "Kowalski");
-
-                var dr = com.ExecuteReader();
-            }
-            return NotFound();
-        }
-        [HttpGet("ex3")]
-        public IActionResult GetStudents3(string indexNumber)
-        {
-
-            using (SqlConnection con = new SqlConnection(ConString))
-            using (SqlCommand com = new SqlCommand())
-            {
-                com.Connection = con;
-                com.CommandText = "insert into Student(FirstName) values (@firstName)";
-
-                con.Open();
-                SqlTransaction transaction = con.BeginTransaction();
-
-                try
-                {
-                    int affectedRows = com.ExecuteNonQuery();
-
-                    com.CommandText = "update into ...";
-                    com.ExecuteNonQuery();
-
-                    transaction.Commit();
-                }catch(Exception e)
-                {
-                    transaction.Rollback();
-                }
-            }
-            return Ok();
-        }
+    
     }
 }
